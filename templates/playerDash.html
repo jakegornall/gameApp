@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{% block playerDash %}
+
+<div id="player-dashboard" ng-contoller="gameplayController as gameApp">
+	<h6>Player: {{user|angular}} Score: {{score|angular}} | Enemy: {{enemy|angular}} Score: {{enemyScore|angular}}</h6>
+	<canvas id="gameCanvas" width="800" height="450" style="border:1px solid #000000;"></canvas>
+</div>
+
+{% block loginSignup %}
+{% endblock %}
+
+{% endblock %}

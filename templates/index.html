@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="gameApp">
+<head>
+	<title>3D Game Test</title>
+
+	<!-- jquery-3.1.1.min.js -->
+	<script
+  	src="https://code.jquery.com/jquery-3.1.1.min.js"
+  	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  	crossorigin="anonymous"></script>
+
+	<!-- Angular.js -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+
+	{{ JSGlue.include() }}
+
+	<!-- Styles.css -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}">
+
+</head>
+<body>
+	{% block playerDash %}
+	{% endblock %}
+	<!--
+		app.js
+		Contains all gameplay code. 
+	-->
+	<script type="text/javascript" src="{{url_for('static', filename='js/app.js')}}"></script>
+
+	<!--
+		PageEventHandlers.js
+		Any JavaScript events that apply to elements outside the gameplay canvas
+	-->
+	<script type="text/javascript" src="{{url_for('static', filename='js/generalPageEventHandlers.js')}}"></script>
+</body>
+</html>
