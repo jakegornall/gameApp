@@ -1,50 +1,53 @@
-{% extends "playerDash.html" %}
+{% extends "index.html" %}
 {% block loginSignup %}
 <div id="loginSignup-page">
 	<div>
 		<h1>Login</h1>
-		<form ng-submit="GenPage.login()">
+		<p>{{ login_error }}</p>
+		<form action="/login" method="POST">
 			<label>
 				Username
 				<input id="login-username" required type="text">
-				<p>{{usernameError}}</p>
 			</label>
+			<br>
 			<label>
 				Password
 				<input required id="login-password" type="password">
-				<p>{{passwordError}}</p>
 			</label>
+			<br>
 			<input type="submit">
 		</form>
 	</div>
 	<div>
 		<h1>SignUp</h1>
-		<form ng-submit="GenPage.signup()">
+		<p>{{ signup_error }}</p>
+		<form action="/signup" method="POST">
 			<label>
 				First Name
 				<input required type="text" name="FirstName">
-				<p></p>
 			</label>
+			<br>
 			<label>
 				Last Name
 				<input required type="text" name="LastName">
-				<p></p>
 			</label>
+			<br>
 			<label>
 				Email
 				<input required type="email" name="email">
-				<p></p>
 			</label>
+			<br>
 			<label>
 				Username
 				<input required type="text" name="username">
-				<p></p>
 			</label>
+			<br>
 			<label>
 				Password
 				<input required type="password" name="password">
-				<p></p>
+				<br>
 			</label>
+			<br>
 			<input type="submit">
 		</form>
 	</div>

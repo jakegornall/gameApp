@@ -17,7 +17,8 @@ angular.module('gameApp', [])
     .controller('gameplayController', function() {
         var gameApp = this;
 
-        gameApp.username = null;
+        gameApp.playerOne = null;
+        gameApp.playerTwo = null;
         gameApp.score = null;
         gameApp.enemy = null;
         gameApp.enemyScore = null;

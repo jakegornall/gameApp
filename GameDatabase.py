@@ -9,10 +9,19 @@ class Users(Base):
     __tablename__ = 'Users'
     username = Column(String(80), primary_key=True)
     passHash = Column(String(255), nullable=False)
+    salt = Column(Integer, nullable=False)
     firstName = Column(String(80), nullable=False)
     lastName = Column(String(80), nullable=False)
     XP = Column(Integer, default=0)
     email = Column(String(255), nullable=True)
+
+    def client_side_user_data(self):
+        return {
+            "username": self.username,
+            "firstName": self.firstName,
+            "lastName": self.lastName,
+            "XP": self.XP
+        }
     
 class Matches(Base):
     __tablename__ = 'Matches'
