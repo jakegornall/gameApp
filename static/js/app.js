@@ -10,21 +10,17 @@ function Player(username, pos, rotation, health, xp) {
 }
 
 
-
-
-
-angular.module('gameApp', [])
-    .controller('gameplayController', function() {
+angular.module('gameApplication', []).controller('gameplayController', function() {
         var gameApp = this;
 
-        gameApp.playerOne = null;
-        gameApp.playerTwo = null;
-        gameApp.score = null;
-        gameApp.enemy = null;
-        gameApp.enemyScore = null;
+        gameApp.testing = 256;
+        
+        gameApp.user = new Player(
+            username = $.cookie("username").split()[0],
+            xp = $.cookie("xp").split()[0]
+        );
 
- 
-        gameApp.MainLoop = function() {
-            
+        gameApp.printData = function() {
+            console.log("hi");
         };
 });

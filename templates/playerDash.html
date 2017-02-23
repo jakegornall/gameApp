@@ -1,17 +1,18 @@
 {% extends "index.html" %}
 {% block playerDash %}
 
-<div id="player-dashboard" ng-contoller="gameplayController as gameApp">
-	<h6>Player: {{playerOne.username|angular}} Score: {{score|angular}} | Enemy: {{playerTwo.username|angular}} Score: {{enemyScore|angular}}</h6>
+<div id="player-dashboard" ng-contoller="gameplayController">
+	<h6>Player: {{gameplayController.user.username|angular}} Score: {{gameplayController.user.score|angular}} XP: {{gameplayController.user.xp|angular}}</h6>
 	<canvas id="gameCanvas" width="800" height="450" style="border:1px solid #000000;"></canvas>
+	<button ng-click="gameplayController.printData()">{{gameplayController.testing|angular}}</button>
+
 	<!--
 		app.js
 		Contains all gameplay code. 
 	-->
-	<script type="text/javascript" src="{{url_for('static', filename='js/app.js')}}"></script>
-	<script type="text/javascript">
-		gameplayController.user = new Player(username={{user.username}}, xp={{user.XP}})
-	</script>
+	<script
+		type="text/javascript"
+		src="{{url_for('static', filename='js/app.js')}}"></script>
 </div>
 
 

@@ -33,59 +33,64 @@ def main():
 @app.route('/login', methods=['POST'])
 def login():
 
-	username = request.args.get('username')
-	password = request.args.get('password')
+	username = request.form.get('username')
+	password = request.form.get('password')
 
-	if not (username and password):
-		return render_template('loginSignup.html', login_error='Please Enter Both Username and Password...')
+	if username and password:
+		try:
+			user = database.query(Users).filter(Users.username == username).one()
+		except:
+			return render_template('loginSignup.html', login_error='Username not found...')
 
-	try:
-		user = database.query(Users).filter(Users.username == username).one()
-	except:
-		return render_template('loginSignup.html', login_error='Username not found...')
-
-	if user.passHash == hash_pass(password, user.salt):
-		# create and set session_token
-		session['session_token'] = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
-		session['username'] = user.username
-		# return user info and session_token
-		resp = make_response(render_template('playerDash.html', user=user.client_side_user_data()))
-		resp.set_cookie('session_token', make_cookie(session['session_token']))
-		return resp
+		if user.passHash == hash_pass(password, user.salt):
+			# create and set session_token
+			session['session_token'] = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+			session['username'] = user.username
+			# return user info and session_token
+			resp = make_response(render_template('playerDash.html', user=user.client_side_user_data()))
+			resp.set_cookie('session_token', make_cookie(session['session_token']))
+			resp.set_cookie('username', make_cookie(session['username']))
+			resp.set_cookie('xp', make_cookie(user.XP))
+			return resp
+		else:
+			return render_template('loginSignup.html', login_error='Invalid Password.')
 	else:
-		return render_template('loginSignup.html', login_error='Invalid Password.')
-
-
+		return render_template('loginSignup.html', login_error='Please Enter Both Username and Password...')
 
 
 @app.route('/signup', methods=['POST'])
 def signup():
 	try:
-		firstName = request.args.get('FirstName')
-		lastName = request.args.get('LastName')
-		email = request.args.get('email')
-		username = request.args.get('username')
-		password = request.args.get('password')
+		firstName = request.form.get('FirstName')
+		lastName = request.form.get('LastName')
+		email = request.form.get('email')
+		username = request.form.get('username')
+		password = request.form.get('password')
 	except:
 		return render_template('loginSignup.html', signup_error='All fields are required.')
 
 	try:
 		user = database.query(Users).filter(Users.username == username).one()
-		return render_template('loginSignup.html', signup_error='User Already Exists.')
 	except:
-		salt = make_salt()
-		newUser = Users(
-			username=username,
-			firstName=firstName, 
-			lastName = lastName,
-			email=email,
-			passHash=hash_pass(password, salt),
-			salt=salt
-			)
-		database.add(newUser)
-		database.commit()
+		user = None
 
-		# return render_template('loginSignup.html', signup_error='Error creating new user. Please try again.')
+	if user:
+		return render_template('loginSignup.html', signup_error='User Already Exists.')
+	else:
+		try:
+			salt = make_salt()
+			newUser = Users(
+				username=username,
+				firstName=firstName, 
+				lastName = lastName,
+				email=email,
+				passHash=hash_pass(password, salt),
+				salt=salt
+				)
+			database.add(newUser)
+			database.commit()
+		except:
+			return render_template('loginSignup.html', signup_error='Error creating new user. Please try again.')
 
 	session['session_token'] = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
 	session['username'] = newUser.username
@@ -95,5 +100,11 @@ def signup():
 	return resp
 
 
+@app.route('/logout', methods=['POST'])
+def logout():
+	pass
+
+
 if __name__ == '__main__':
+	app.secret_key = "secret_key12846214dyjkehyishjtidyh"
 	app.run(debug=True, host='127.0.0.1', port=5000)

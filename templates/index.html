@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="gameApp">
+<html ng-app="gameApplication">
 <head>
 	<title>3D Game Test</title>
 
@@ -9,9 +9,13 @@
   	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   	crossorigin="anonymous"></script>
 
+  	<!-- jQuery Cookies -->
+	<script type="text/javascript" src="{{url_for('static', filename='js/jquery.cookie.js')}}"></script>
+
 	<!-- Angular.js -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 
+	<!-- Flask-JSGlue -->
 	{{ JSGlue.include() }}
 
 	<!-- Styles.css -->
